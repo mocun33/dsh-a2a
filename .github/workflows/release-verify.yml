@@ -1,0 +1,31 @@
+name: Verify independent beta package
+
+on:
+  push:
+    branches:
+      - release/mocun33-v0.3.0-beta.1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dev dependencies without running install scripts
+        run: npm install --ignore-scripts --legacy-peer-deps --no-audit --no-fund
+      - name: Typecheck
+        run: npm run verify
+      - name: Test package exports, smoke, and A2A v1
+        run: npm test
+      - name: Build distributable files
+        run: npm run build:local
+      - name: Inspect npm package contents (no publishing)
+        run: npm pack --dry-run --ignore-scripts --json
