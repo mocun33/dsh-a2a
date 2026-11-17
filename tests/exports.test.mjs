@@ -39,3 +39,12 @@ test('exports: ./a2a-client resolves and imports the Node A2A client API', async
   assert.equal(typeof sdk.A2aRpcError, 'function')
   assert.equal(typeof sdk.matchesAllowlist, 'function')
 })
+
+test('fork release: npm name, DSH browser ID and Cordis patch agree', () => {
+  assert.equal(pkg.name, '@mocun33/dsh-a2a')
+  const bundle = readFileSync(join(root, 'client/client.js'), 'utf8')
+  assert.ok(bundle.includes(`id: '${pkg.name}'`), 'browser module loader ID must equal package name')
+  assert.ok(bundle.includes(`const PACKAGE = '${pkg.name}'`), 'browser panel bundle key must equal package name')
+  const patch = readFileSync(join(root, 'cordis.patch.yml'), 'utf8')
+  assert.ok(patch.includes(`name: '${pkg.name}'`), 'Cordis patch package name must equal package name')
+})

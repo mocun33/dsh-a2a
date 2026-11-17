@@ -1,4 +1,7 @@
-# dsh-a2a
+# dsh-a2a — mocun33 社区维护版
+
+> 本维护版基于 [zyfgood/dsh-a2a](https://github.com/zyfgood/dsh-a2a)（MIT License），与上游发布独立。独立包名：`@mocun33/dsh-a2a`，首个预览版本：`0.3.0-beta.1`。代码包含 A2A 1.0 线协议支持并保留 0.3 兼容路径，相关改动见[上游 PR #2](https://github.com/zyfgood/dsh-a2a/pull/2)。请勿与上游插件同时在同一 DSH profile 中启用（两者都使用 Cordis 插件 id `a2a`）。
+
 
 DSH（DeepSeek Harness）的 **A2A（Agent2Agent）协议**插件。
 
@@ -12,7 +15,7 @@ DSH 内置的互操作走 ACP + MCP，不包含 A2A；本插件补上这块拼�
 - **客户端方向（出站）**：注册 `a2a_*` 模型工具，让任意 DSH agent 直接呼叫远端 A2A agent
   - `a2a_discover` / `a2a_send` / `a2a_task_status` / `a2a_cancel`
   - 地址白名单（`clientAllowPatterns`）控制 agent 可呼叫的目标
-- **可视化运维面板**（Web client 半，v0.2.0）：Plugins → @zyfgood/dsh-a2a 的配置卡与设置 Plugins 分区的 A2A 标签页
+- **可视化运维面板**（Web client 半，v0.2.0）：Plugins → @mocun33/dsh-a2a 的配置卡与设置 Plugins 分区的 A2A 标签页
   - 服务器状态：运行中/模式/地址/协议版本/鉴权 + curl 验证命令一键复制
   - 实时任务板：最近任务的状态徽标/上下文/产物数，非终态任务一键取消（5s 自动刷新）
   - 远端 agent 目录：保存常用远端地址，浏览器直连拉取其 Agent Card（名称/版本/技能）
@@ -23,21 +26,24 @@ DSH 内置的互操作走 ACP + MCP，不包含 A2A；本插件补上这块拼�
 ## 一、安装
 
 ```bash
-# 官方 CLI 一键安装（npm 渠道，推荐；bundle patch 自动挂载）
-dsh plugin --profile <name> add @zyfgood/dsh-a2a
+# npm 预览版发布后安装（指定版本以避免预览版被误认为稳定版）
+dsh plugin --profile <name> add @mocun33/dsh-a2a@0.3.0-beta.1
 
-# 或 GitHub
-dsh plugin --profile <name> add github:zyfgood/dsh-a2a
+# 或克隆本独立发行分支，在本地安装
+# git clone --branch release/mocun33-v0.3.0-beta.1 https://github.com/mocun33/dsh-a2a.git
+# dsh plugin --profile <name> add file:./dsh-a2a
 
-# 或本地路径
+# 或已有本地路径
 dsh plugin --profile <name> add file:D:/DSHProjects/dsh-a2a
 ```
 
-> npm 裸名 `dsh-a2a` 是另一个无关项目（TtTRz/dsh-a2a），本插件发布在 `@zyfgood` scope 下，安装时请带 scope。
+> npm 裸名 `dsh-a2a` 是另一个无关项目（TtTRz/dsh-a2a），本维护版使用 `@mocun33` scope，需有同名 npm 账号或该 scope 的发布权限；发布前请执行 `npm whoami`。
 
 重启 profile 后生效。默认监听 `127.0.0.1:7310`。
 
 > `lib/` 预构建产物随仓库发布，安装即用，无需构建脚本（无 pnpm ≥10 的 `allowBuilds` 步骤）。
+
+新包的发布步骤详见 [`RELEASING.md`](./RELEASING.md)。本分支仍使用历史 `message/send` 示例；新增 A2A 1.0 标准方法 `SendMessage`、`SendStreamingMessage`、`GetTask`、`ListTasks`、`CancelTask`，旧方法保持兼容。
 
 ## 二、快速验证
 
@@ -83,7 +89,7 @@ profile 的 `cordis.patch.yml`（或本包 `cordis.patch.yml` 默认层）：
 
 ```yaml
 - id: a2a
-  name: '@zyfgood/dsh-a2a'
+  name: '@mocun33/dsh-a2a'
   config:
     port: 7310
     mode: agent

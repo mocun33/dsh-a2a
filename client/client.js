@@ -18,7 +18,7 @@
  * 面板不渲染、不报错。
  */
 window.__ModuleLoader__.load({
-  id: '@zyfgood/dsh-a2a',
+  id: '@mocun33/dsh-a2a',
   factory: (require) => {
     const react = require('react')
     const h = react.createElement
@@ -27,7 +27,7 @@ window.__ModuleLoader__.load({
     const useCallback = react.useCallback
 
     const NS = 'dsh-a2a'
-    const PACKAGE = '@zyfgood/dsh-a2a'
+    const PACKAGE = '@mocun33/dsh-a2a'
     const DEFAULT_BASE = 'http://127.0.0.1:7310/'
 
     const dict = {
